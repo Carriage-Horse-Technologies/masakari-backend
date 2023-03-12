@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"notchman.tech/location-provider/redis"
+	"notchman.tech/masakari-backend/redis"
 )
 
 // LocationProviderとして全ユーザーの位置情報を定期的に返却する

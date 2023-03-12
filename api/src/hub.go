@@ -1,6 +1,6 @@
 package main
 
-import "notchman.tech/location-provider/redis"
+import "notchman.tech/masakari-backend/redis"
 
 var h = hub{
 	broadcast:  make(chan message),

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/pkg/errors"
-	"notchman.tech/location-provider/redis"
+	"notchman.tech/masakari-backend/redis"
 )
 
 func count(target string) (value int, err error) {
@@ -41,14 +41,18 @@ func handler(s []byte) []byte {
 
 	// 各アクションケースに応じて処理を行う
 	switch {
-	case requestObject.Action == "UPDATE_CHARACTER_POS":
-		// TODO replace here
-		err := setUserPos(requestObject)
-		if err != nil {
-			return SystemResponse
-		}
-		r := []byte(`{"action":"SYSTEM_MESSAGE","status":"OK","error": false}`)
+
+	case requestObject.Action == ACTION_CHAT_MESSAGE:
+		r := []byte(`{"action":"ACTION_CHAT_MESSAGE","user_id":"examper-user-id","message":"hogehoge"}`)
 		return r
+	case requestObject.Action == ACTION_RECV_GPT:
+		r := []byte(`{"action":"ACTION_RECV_GPT","user_id":"examper-user-id","message":"hogehoge"}`)
+		return r
+	case requestObject.Action == ACTION_SEND_STATUS:
+		r := []byte(`{"name":"デスマTV","cpu":11.4514,"memory":11.514,"traffic":114514}`)
+		return r
+	default:
+		return ErrorSocketResponse
 	}
 
 	return SampleResponse

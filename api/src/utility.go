@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/pkg/errors"
-	"notchman.tech/location-provider/redis"
+	"notchman.tech/masakari-backend/redis"
 )
 
 func checkRoomId(roomId string) (bool, error) {
