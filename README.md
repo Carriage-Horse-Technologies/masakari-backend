@@ -18,3 +18,12 @@
     "message":"hogehoge"
 }
 ```
+
+```json
+{
+	"name":"デスマTV",
+	"cpu":11.4514,
+	"memory":11.514,
+	"traffic":114514
+}
+```

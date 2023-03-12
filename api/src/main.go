@@ -41,6 +41,9 @@ func main() {
 		// roomId := c.Param("roomId")
 		serveWs(c.Writer, c.Request, "last-hack")
 	})
+	router.GET("/status", func(c *gin.Context) {
+		getServerStatus(c.Writer, c.Request)
+	})
 
 	go h.run()
 	ProviderJob()

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 
 	"github.com/pkg/errors"
 	"notchman.tech/masakari-backend/redis"
@@ -36,6 +37,7 @@ func setUserPos(request Request) (err error) {
 func handler(s []byte) []byte {
 	var requestObject Request
 	if err := json.Unmarshal(s, &requestObject); err != nil {
+		log.Println(err)
 		return ErrorSocketResponse
 	}
 
@@ -43,8 +45,18 @@ func handler(s []byte) []byte {
 	switch {
 
 	case requestObject.Action == ACTION_CHAT_MESSAGE:
-		r := []byte(`{"action":"ACTION_CHAT_MESSAGE","user_id":"examper-user-id","message":"hogehoge"}`)
-		return r
+		res, err := json.Marshal(ChatResponse{
+			UserId:  requestObject.UserId,
+			Action:  requestObject.Action,
+			Message: requestObject.Message,
+			Name:    requestObject.Name,
+		})
+		if err != nil {
+			log.Println(err)
+
+			return ErrorSocketResponse
+		}
+		return res
 	case requestObject.Action == ACTION_RECV_GPT:
 		r := []byte(`{"action":"ACTION_RECV_GPT","user_id":"examper-user-id","message":"hogehoge"}`)
 		return r
@@ -55,5 +67,4 @@ func handler(s []byte) []byte {
 		return ErrorSocketResponse
 	}
 
-	return SampleResponse
 }
