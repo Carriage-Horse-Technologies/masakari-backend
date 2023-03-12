@@ -9,7 +9,7 @@ import (
 	"notchman.tech/location-provider/redis"
 )
 
-// LocationProviderとして全ユーザーの位置情報を定期的に返却する
+// MasakariBackendとして全ユーザーの位置情報を定期的に返却する
 func ProviderJob() {
 
 	// WebSocketに良い感じに流すジョブ
