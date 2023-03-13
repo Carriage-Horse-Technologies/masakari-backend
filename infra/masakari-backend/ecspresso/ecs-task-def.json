@@ -38,7 +38,12 @@
           "protocol": "tcp"
         }
       ],
-      "secrets": [],
+      "secrets": [
+        {
+          "name": "GPT_API_KEY",
+          "valueFrom": "{{ tfstate `data.aws_secretsmanager_secret.AlloMasakariBackendOpenAIToken.arn` }}:openai_api_token::"
+        }
+      ],
       "systemControls": [],
       "ulimits": [],
       "volumesFrom": []
