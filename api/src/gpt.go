@@ -9,14 +9,14 @@ import (
 	"os"
 )
 
-
-
 func buildGptMessages(messages []string) (res []GptMessage) {
 	for _, msg := range messages {
 		res = append(res, GptMessage{Role: "user", Content: msg})
 	}
 	return res
 }
+
+const ADJUST_SIZE = 40
 
 var presetMessages = []string{"あなたはベテランプログラマーです", "あなたはクソコードが嫌いです", "あなたはクソコードに対して厳しい意見を言わなければなりません", "ただし、30文字以内で話せ"}
 
@@ -99,5 +99,12 @@ func fetchGPTMessage(msg string) (gptMessage string, err error) {
 	// Show results
 	// -------------------------------------------
 	fmt.Println(post)
-	return post.Choices[0].Message.Content, nil
+	gptMessage = post.Choices[0].Message.Content
+	if len(gptMessage) < ADJUST_SIZE {
+		for i := 0; i < ADJUST_SIZE-len(msg); i++ {
+			// iの値が0から9まで変化していく
+			gptMessage += "　"
+		}
+	}
+	return gptMessage, nil
 }
