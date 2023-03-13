@@ -53,10 +53,10 @@ func NewScheduleTargeter() vegeta.Targeter {
 }
 
 func Benchmark(rateRatio float64) {
-	var (
-		rate     = flag.Int("rate", int(3000.0*rateRatio), "Number of requests per time unit [0 = infinity] (default 10/1s)")
-		duration = flag.Int("duration", 3, "Duration of the test [0 = forever]")
-	)
+	// rate := flag.Int("rate", int(30.0*rateRatio), "Number of requests per time unit [0 = infinity] (default 10/1s)")
+	rate := int(1000.0 * rateRatio)
+	// duration := flag.Int("duration", 3, "Duration of the test [0 = forever]")
+	duration := 3
 	flag.Parse()
 
 	targeters := []*ProductTargeter{
@@ -68,8 +68,8 @@ func Benchmark(rateRatio float64) {
 		},
 	}
 
-	rt := vegeta.Rate{Freq: *rate / len(targeters), Per: time.Second}
-	dur := time.Duration(*duration) * time.Second
+	rt := vegeta.Rate{Freq: rate / len(targeters), Per: time.Second}
+	dur := time.Duration(duration) * time.Second
 
 	var metrics MetricsMutex
 
