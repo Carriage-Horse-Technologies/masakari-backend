@@ -27,3 +27,7 @@
 	"traffic":114514
 }
 ```
+
+```json
+{"action":"ACTION_RECV_MASAKARI","user_id":"examper-user-id","message":"クソコードだ"}
+```

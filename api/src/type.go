@@ -78,8 +78,8 @@ type ProcessStatus struct {
 	Traffic int     `json:"traffic"`
 }
 type ProcessStatusResponse struct {
-	Action string        `json:"action"`
-	Status ProcessStatus `json:"status"`
+	Action string       `json:"action"`
+	Status ServerStatus `json:"status"`
 }
 
 type ChatResponse struct {
@@ -87,4 +87,47 @@ type ChatResponse struct {
 	UserId  string `json:"user_id"`
 	Message string `json:"message"`
 	Name    string `json:"name"`
+}
+type GPTChatResponse struct {
+	Action  string `json:"action"`
+	Message string `json:"message"`
+	Name    string `json:"name"`
+}
+
+type ServerStatus struct {
+	Cpuutilization float64 `json:"cpuutilization"`
+	DiskReadBytes  int64   `json:"disk_read_bytes"`
+	DiskWriteBytes int64   `json:"disk_write_bytes"`
+	NetworkIn      float64 `json:"network_in"`
+	NetworkOut     float64 `json:"network_out"`
+}
+
+type (
+	GptMessage struct {
+		Role    string `json:"role"`
+		Content string `json:"content"`
+	}
+	GptRequestBody struct {
+		Messages []GptMessage `json:"messages"`
+		Model    string       `json:"model"`
+	}
+)
+
+type GptResponseBody struct {
+	Choices []struct {
+		FinishReason string `json:"finish_reason"`
+		Index        int64  `json:"index"`
+		Message      struct {
+			Content string `json:"content"`
+			Role    string `json:"role"`
+		} `json:"message"`
+	} `json:"choices"`
+	Created int64  `json:"created"`
+	ID      string `json:"id"`
+	Object  string `json:"object"`
+	Usage   struct {
+		CompletionTokens int64 `json:"completion_tokens"`
+		PromptTokens     int64 `json:"prompt_tokens"`
+		TotalTokens      int64 `json:"total_tokens"`
+	} `json:"usage"`
 }

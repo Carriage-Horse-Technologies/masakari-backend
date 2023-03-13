@@ -21,19 +21,6 @@ func count(target string) (value int, err error) {
 	return
 }
 
-func setUserPos(request Request) (err error) {
-	// convert object to json string
-	objStr, err := convertJsonToStr(request)
-	if err != nil {
-		return err
-	}
-	err = redis.Update(savePathBuilder(request.UserId), objStr)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func handler(s []byte) []byte {
 	var requestObject Request
 	if err := json.Unmarshal(s, &requestObject); err != nil {
@@ -65,16 +52,18 @@ func handler(s []byte) []byte {
 		r := []byte(`{"name":"デスマTV","cpu":11.4514,"memory":11.514,"traffic":114514}`)
 		return r
 	case requestObject.Action == ACTION_RECV_MASAKARI:
+
+		//メッセージのスコアを計算してサーバーを攻撃する（こちらは特に待つ必要がないので別で処理）
+		go attackServer(requestObject.Message)
+
 		//メッセージをGPTへ投げる
+		msg, err := fetchGPTMessage(requestObject.Message)
 
-		//メッセージのスコアを計算してサーバーを攻撃する
-		msg, err := fetchGPTMessage("test")
 		if err != nil {
-			return errorResponseFactory("faile to calc score", 503, err.Error())
-
+			return errorResponseFactory("faile to send message to gpt server", 503, err.Error())
 		}
 		//メッセージを返却する
-		return []byte(msg)
+		return messageResponseFactory(msg)
 
 	default:
 		return errorResponseFactory("faile to execute action", 503, "no such action type")

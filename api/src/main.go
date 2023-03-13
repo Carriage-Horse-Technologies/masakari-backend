@@ -42,7 +42,10 @@ func main() {
 		serveWs(c.Writer, c.Request, "last-hack")
 	})
 	router.GET("/status", func(c *gin.Context) {
-		getServerStatus(c.Writer, c.Request)
+		handleGetServerStatus(c.Writer, c.Request)
+	})
+	router.GET("/test/bench", func(c *gin.Context) {
+		Benchmark(1.0)
 	})
 
 	go h.run()

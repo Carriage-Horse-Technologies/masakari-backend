@@ -18,13 +18,14 @@ func ProviderJob() {
 			var response ProcessStatusResponse
 			response.Action = ACTION_SEND_STATUS
 			// TODO:テストデータではなく実際の物にする
-
-			status := ProcessStatus{
-				CPU:     11.4514,
-				Memory:  11.4514,
-				Traffic: 114514,
-				Name:    "馬車馬",
+			var status ServerStatus
+			statusByteData, err := getServerStatus()
+			if err != nil {
+				log.Println(err)
+				continue
 			}
+			json.Unmarshal(statusByteData, &status)
+
 			response.Status = status
 
 			res, err := json.Marshal(response)
