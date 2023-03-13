@@ -54,7 +54,7 @@ func handler(s []byte) []byte {
 		if err != nil {
 			log.Println(err)
 
-			return errorResponseFactory("faile to parse json", 503, err.Error())
+			return errorResponseFactory("faile to send message", 503, "data is not json object")
 
 		}
 		return res
@@ -70,14 +70,14 @@ func handler(s []byte) []byte {
 		//メッセージのスコアを計算してサーバーを攻撃する
 		msg, err := fetchGPTMessage("test")
 		if err != nil {
-			return errorResponseFactory("faile to parse json", 503, err.Error())
+			return errorResponseFactory("faile to calc score", 503, err.Error())
 
 		}
 		//メッセージを返却する
 		return []byte(msg)
 
 	default:
-		return errorResponseFactory("faile to parse json", 503, "no such action type")
+		return errorResponseFactory("faile to execute action", 503, "no such action type")
 	}
 
 }

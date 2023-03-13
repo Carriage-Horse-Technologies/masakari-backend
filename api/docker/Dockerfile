@@ -1,10 +1,10 @@
-FROM golang:latest as builder-setup
+FROM golang:bullseye as builder-setup
 WORKDIR /workdir
 COPY ./src ./
 # COPY ./docker/app/config ./config
 RUN go mod tidy
 
-FROM builder-setup
+FROM builder-setup as builder
 # Set Environment Variable
 ENV CGO_ENABLED=0
 # Build
