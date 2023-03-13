@@ -46,8 +46,10 @@ type hub struct {
 }
 
 type ErrorObject struct {
-	Name string `json:"name"`
-	Code string `json:"code"`
+	Action string `json:"action"`
+	Name   string `json:"name"`
+	Code   int    `json:"code"`
+	Msg    string `json:"msg"`
 }
 type Request struct {
 	Action  string  `json:"action"`

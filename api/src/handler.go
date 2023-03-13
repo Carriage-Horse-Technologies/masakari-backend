@@ -38,12 +38,12 @@ func handler(s []byte) []byte {
 	var requestObject Request
 	if err := json.Unmarshal(s, &requestObject); err != nil {
 		log.Println(err)
-		return ErrorSocketResponse
+		return errorResponseFactory("faile to parse json", 503, err.Error())
+
 	}
 
 	// 各アクションケースに応じて処理を行う
 	switch {
-
 	case requestObject.Action == ACTION_CHAT_MESSAGE:
 		res, err := json.Marshal(ChatResponse{
 			UserId:  requestObject.UserId,
@@ -54,7 +54,8 @@ func handler(s []byte) []byte {
 		if err != nil {
 			log.Println(err)
 
-			return ErrorSocketResponse
+			return errorResponseFactory("faile to parse json", 503, err.Error())
+
 		}
 		return res
 	case requestObject.Action == ACTION_RECV_GPT:
@@ -63,8 +64,20 @@ func handler(s []byte) []byte {
 	case requestObject.Action == ACTION_SEND_STATUS:
 		r := []byte(`{"name":"デスマTV","cpu":11.4514,"memory":11.514,"traffic":114514}`)
 		return r
+	case requestObject.Action == ACTION_RECV_MASAKARI:
+		//メッセージをGPTへ投げる
+
+		//メッセージのスコアを計算してサーバーを攻撃する
+		msg, err := fetchGPTMessage("test")
+		if err != nil {
+			return errorResponseFactory("faile to parse json", 503, err.Error())
+
+		}
+		//メッセージを返却する
+		return []byte(msg)
+
 	default:
-		return ErrorSocketResponse
+		return errorResponseFactory("faile to parse json", 503, "no such action type")
 	}
 
 }

@@ -6,3 +6,8 @@ func fetchStatus() (result_json []byte, err error) {
 
 	return []byte(`{"name":"デスマTV","cpu":11.4514,"memory":11.514,"traffic":114514}`), nil
 }
+
+func fetchGPTMessage(loveMsg string) (msg string, err error) {
+	//TODO: replace here
+	return "クソコード", nil
+}

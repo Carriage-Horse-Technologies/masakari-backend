@@ -59,3 +59,17 @@ func convertStrToJson(jsonStr string, jsonObj *(interface{})) (err error) {
 	}
 	return
 }
+
+func errorResponseFactory(name string, code int, msg string) []byte {
+	errRes := ErrorObject{
+		Action: ACTION_ERROR,
+		Name:   name,
+		Code:   code,
+		Msg:    msg,
+	}
+	res, err := json.Marshal(errRes)
+	if err != nil {
+		return FatalErrorResponse
+	}
+	return res
+}
