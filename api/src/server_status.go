@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 
 	"notchman.tech/masakari-backend/cache"
@@ -50,7 +51,11 @@ func fetchStatus() (result_json ServerStatus, err error) {
 
 func getServerStatus() ([]byte, error) {
 	//キャッシュの作成
-	cacheManager := cache.NewMemcached("memcached:11211")
+	memcachedUrl := os.Getenv("MEMCACHED_URL")
+	if len(memcachedUrl) == 0 {
+		return nil, fmt.Errorf("memcached url is not found in env")
+	}
+	cacheManager := cache.NewMemcached(memcachedUrl)
 	cache_item, err := cacheManager.Get(KEY_CACHE_STATUS)
 	if len(cache_item) != 0 && err == nil {
 		fmt.Println("cached")
