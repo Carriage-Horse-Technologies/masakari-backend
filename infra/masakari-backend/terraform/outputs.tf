@@ -100,6 +100,10 @@ output "aws_ecr_repository_AlloMasakariBackendRepository_id" {
   value = aws_ecr_repository.AlloMasakariBackendRepository.id
 }
 
+output "aws_ecr_repository_AlloMasakariBackendWorkerRepository_id" {
+  value = aws_ecr_repository.AlloMasakariBackendWorkerRepository.id
+}
+
 
 # ecs
 output "aws_ecs_cluster_AlloMasakariBackendECSCluster_id" {
