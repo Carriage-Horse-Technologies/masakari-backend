@@ -17,7 +17,6 @@ func ProviderJob() {
 
 			var response ProcessStatusResponse
 			response.Action = ACTION_SEND_STATUS
-			// TODO:テストデータではなく実際の物にする
 			var status ServerStatus
 			statusByteData, err := getServerStatus()
 			if err != nil {
@@ -35,10 +34,6 @@ func ProviderJob() {
 			}
 			m := message{res, ROOM_ID}
 			h.broadcast <- m
-
-			//TODO 消せ
-			// m = message{SampleResponse, ROOM_ID}
-			// h.broadcast <- m
 		}
 	}()
 
