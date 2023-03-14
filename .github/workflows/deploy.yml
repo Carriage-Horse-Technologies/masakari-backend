@@ -12,6 +12,7 @@ permissions:
 
 env:
   ECR_REPOSITORY: allo-masakari-backend
+  ECR_WORKER_REPOSITORY: allo-masakari-backend-worker
   TFSTATE_S3_BUCKET_NAME: yukinissie-tfstate
   TFSTATE_S3_BUCKET_KEY: allo-misakari-backend/terraform.tfstate
 
@@ -54,6 +55,16 @@ jobs:
           file: ./api/docker/Dockerfile
           platforms: linux/arm64
           tags: ${{ steps.amazon-ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - uses: docker/build-push-action@v3
+        with:
+          push: true
+          context: ./worker
+          file: ./worker/docker/Dockerfile
+          platforms: linux/arm64
+          tags: ${{ steps.amazon-ecr-login.outputs.registry }}/${{ env.ECR_WORKER_REPOSITORY }}:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 

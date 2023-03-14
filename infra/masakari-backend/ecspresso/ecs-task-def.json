@@ -51,6 +51,43 @@
       "systemControls": [],
       "ulimits": [],
       "volumesFrom": []
+    },
+    {
+      "command": [],
+      "cpu": 0,
+      "dnsSearchDomains": [],
+      "dnsServers": [],
+      "dockerLabels": {},
+      "dockerSecurityOptions": [],
+      "entryPoint": [],
+      "environment": [
+        {
+          "name": "REDIS_HOST",
+          "value": "{{ tfstate `data.aws_elasticache_replication_group.AlloMasakariBackendElasticache.primary_endpoint_address` }}:6379"
+        }
+      ],
+      "environmentFiles": [],
+      "essential": true,
+      "extraHosts": [],
+      "image": "{{ tfstate `data.aws_caller_identity.current.account_id` }}.dkr.ecr.ap-northeast-1.amazonaws.com/allo-masakari-backend-worker:{{ env `TAG` `latest` }}",
+      "links": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/prod-allo-masakari-backend-worker-task-definition",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "mountPoints": [],
+      "name": "allo-masakari-backend-worker",
+      "portMappings": [],
+      "secrets": [],
+      "systemControls": [],
+      "ulimits": [],
+      "volumesFrom": []
     }
   ],
   "cpu": "256",
