@@ -6,6 +6,18 @@ func StringDistance(lhs, rhs string) int {
 	return Distance([]rune(lhs), []rune(rhs))
 }
 
+func ScoreMsg(msg string) float64 {
+	//事前リストから計算させる
+	score := 0.0
+	for _, sentence := range sentenceList {
+		score = NormalizeDistance([]rune(msg), []rune(sentence))
+		if score > threshold {
+			break
+		}
+	}
+	return score
+}
+
 func NormalizeDistance(lhs, rhs []rune) float64 {
 	return float64(Distance(lhs, rhs)) / math.Max(float64(len(lhs)), float64(len(rhs)))
 }

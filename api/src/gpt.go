@@ -105,9 +105,9 @@ func fetchGPTMessage(msg string) (gptMessage string, err error) {
 	// -------------------------------------------
 	// Decode response to JSON
 	// -------------------------------------------
-	fmt.Println(res)
+	// fmt.Println(res)
 	resBody, err := ioutil.ReadAll(res.Body)
-	fmt.Println(resBody)
+	// fmt.Println(resBody)
 	if err != nil {
 		return
 	}
@@ -123,7 +123,7 @@ func fetchGPTMessage(msg string) (gptMessage string, err error) {
 	// -------------------------------------------
 	// Show results
 	// -------------------------------------------
-	fmt.Println(post)
+	// fmt.Println(post)
 	gptMessage = post.Choices[0].Message.Content
 	if len(gptMessage) < ADJUST_SIZE {
 		for i := 0; i < ADJUST_SIZE-len(msg); i++ {

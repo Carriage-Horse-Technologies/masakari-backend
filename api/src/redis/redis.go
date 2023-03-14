@@ -263,12 +263,15 @@ func LPush(key string, value string) (err error) {
 		return errors.Wrap(err, "Failed to get redis client")
 	}
 	defer client.Close()
-	//キーの存在可否の修正
-	err = client.LPush(key, value).Err()
-	if err != nil {
-		// log.Println(err)
+	//キーが存在しない時にexpireを仕込む
+	result, _ := client.Exists(key).Result()
+	if result == 0 {
+		fmt.Println("set expire")
+		err = client.LPush(key, value).Err()
+		_, err = client.Expire(key, 1*time.Hour).Result()
+		return
 	}
-
+	err = client.LPush(key, value).Err()
 	return
 }
 
@@ -280,10 +283,15 @@ func RPush(key string, value string) (err error) {
 	}
 	defer client.Close()
 	//キーの存在可否の修正
-	err = client.RPush(key, value).Err()
-	if err != nil {
-		// log.Println(err)
+	//キーが存在しない時にexpireを仕込む
+	result, _ := client.Exists(key).Result()
+	if result == 0 {
+		fmt.Println("set expire")
+		err = client.RPush(key, value).Err()
+		_, err = client.Expire(key, 1*time.Hour).Result()
+		return
 	}
+	err = client.RPush(key, value).Err()
 
 	return
 }

@@ -99,6 +99,5 @@ func Benchmark(rateRatio float64) {
 	if err != nil {
 		log.Println(err)
 	}
-
-	// fmt.Println(b)
+	return
 }
