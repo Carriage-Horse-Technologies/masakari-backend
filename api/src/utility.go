@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"os"
 
 	"github.com/pkg/errors"
 )
@@ -55,4 +56,11 @@ func messageResponseFactory(msg string) []byte {
 		return FatalErrorResponse
 	}
 	return res
+}
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
 }

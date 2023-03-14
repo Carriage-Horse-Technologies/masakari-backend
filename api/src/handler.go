@@ -54,7 +54,10 @@ func handler(s []byte) []byte {
 	case requestObject.Action == ACTION_RECV_MASAKARI:
 
 		//メッセージのスコアを計算してサーバーを攻撃する（こちらは特に待つ必要がないので別で処理）
-		go attackServer(requestObject.Message)
+		// go attackServer(requestObject.Message)
+		score := ScoreMsg(requestObject.Message)
+		// アクションを発火する
+		createAttackServerTask(int(1000 * score))
 
 		//メッセージをGPTへ投げる
 		msg, err := fetchGPTMessage(requestObject.Message)

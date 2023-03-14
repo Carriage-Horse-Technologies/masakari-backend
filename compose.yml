@@ -12,6 +12,18 @@ services:
       - "REDIS_HOST=redis:6379"
     env_file:
       - .env
+  worker:
+    build:
+      context: ./worker
+      dockerfile: ./docker/Dockerfile
+    tty: true
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      - "REDIS_HOST=redis:6379"
+    # env_file:
+    #   - .env
   redis:
     image: redis
     ports:

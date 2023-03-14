@@ -2,6 +2,8 @@ package main
 
 import "math"
 
+const threshold = 0.7
+
 func StringDistance(lhs, rhs string) int {
 	return Distance([]rune(lhs), []rune(rhs))
 }
