@@ -38,7 +38,7 @@ func NewScheduleTargeter() vegeta.Targeter {
 	return func(tgt *vegeta.Target) error {
 		target := ScheduleTargeter{
 			Method: http.MethodGet,
-			URL:    "http://legacy-stack.yukinissie.com/",
+			URL:    "http://legacy-stack.yukinissie.com/random.php",
 			Header: map[string][]string{
 				"Content-Type": {"application/json"},
 			},
