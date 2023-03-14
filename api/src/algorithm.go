@@ -1,23 +1,28 @@
 package main
 
-import "math"
+import (
+	"math"
+
+	"notchman.tech/masakari-backend/jsd"
+)
 
 const threshold = 0.7
-
-func StringDistance(lhs, rhs string) int {
-	return Distance([]rune(lhs), []rune(rhs))
-}
 
 func ScoreMsg(msg string) float64 {
 	//事前リストから計算させる
 	score := 0.01
 	for _, sentence := range sentenceList {
-		score = NormalizeDistance([]rune(msg), []rune(sentence))
+		score = jsd.StringDistance(msg, sentence)
+		// NormalizeDistance([]rune(msg), []rune(sentence))
 		if score > threshold {
 			break
 		}
 	}
 	return score
+}
+
+func StringDistance(lhs, rhs string) int {
+	return Distance([]rune(lhs), []rune(rhs))
 }
 
 func NormalizeDistance(lhs, rhs []rune) float64 {
