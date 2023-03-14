@@ -26,13 +26,3 @@ func NewAttackServerTask(count int) (*asynq.Task, error) {
 	// task options can be passed to NewTask, which can be overridden at enqueue time.
 	return asynq.NewTask(TypeDispatchAttack, payload, asynq.MaxRetry(5), asynq.Timeout(20*time.Minute)), nil
 }
-
-// func HandleAttackServerTask(ctx context.Context, t *asynq.Task) error {
-// 	var p AttackServerPayload
-// 	if err := json.Unmarshal(t.Payload(), &p); err != nil {
-// 		return fmt.Errorf("json.Unmarshal failed: %v: %w", err, asynq.SkipRetry)
-// 	}
-// 	log.Printf("Attack the server: count=%d", p.Count)
-// 	// Email delivery code ...
-// 	return nil
-// }
