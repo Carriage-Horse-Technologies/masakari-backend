@@ -5,8 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"os"
+
+	"notchman.tech/masakari-backend/redis"
 )
 
 func buildGptMessages(messages []string) (res []GptMessage) {
@@ -18,7 +21,19 @@ func buildGptMessages(messages []string) (res []GptMessage) {
 
 const ADJUST_SIZE = 40
 
-var presetMessages = []string{"あなたはベテランプログラマーです", "あなたはクソコードが嫌いです", "あなたはクソコードに対して厳しい意見を言わなければなりません", "ただし、30文字以内で話せ"}
+func buildPresetMessages() ([]string, error) {
+	//調教用データ
+	presetMessages := []string{"あなたはベテランプログラマーです", "あなたはクソコードが嫌いです", "あなたはクソコードに対して厳しい意見を言わなければなりません", "ただし、30文字以内で話せ"}
+
+	//キャッシュの作成
+	messages, err := redis.LRange(KEY_GPT_WORD, 0, math.MaxInt)
+	if err != nil {
+		return nil, err
+	}
+	presetMessages = append(presetMessages, messages...)
+	// fmt.Println("debug", presetMessages)
+	return presetMessages, nil
+}
 
 func fetchGPTMessage(msg string) (gptMessage string, err error) {
 	const (
@@ -26,11 +41,21 @@ func fetchGPTMessage(msg string) (gptMessage string, err error) {
 		url         = "https://api.openai.com/v1/chat/completions"
 		contentType = "application/json"
 	)
+
 	// -------------------------------------------
 	// Create request and set headers
 	// -------------------------------------------
 
+	presetMessages, err := buildPresetMessages()
+	if err != nil {
+		return
+	}
+
 	presetMessages = append(presetMessages, msg)
+
+	// ここのエラーはもみ消す
+	_ = redis.RPush(KEY_GPT_WORD, msg)
+
 	body, err := json.Marshal(GptRequestBody{
 		Messages: buildGptMessages(presetMessages),
 		Model:    "gpt-3.5-turbo",

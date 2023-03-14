@@ -255,3 +255,47 @@ func Update(key string, value string) (err error) {
 	}
 	return SetWithKey(key, value)
 }
+
+func LPush(key string, value string) (err error) {
+	redisPath := os.Getenv("REDIS_HOST")
+	client, err := New(redisPath)
+	if err != nil {
+		return errors.Wrap(err, "Failed to get redis client")
+	}
+	defer client.Close()
+	//キーの存在可否の修正
+	err = client.LPush(key, value).Err()
+	if err != nil {
+		// log.Println(err)
+	}
+
+	return
+}
+
+func RPush(key string, value string) (err error) {
+	redisPath := os.Getenv("REDIS_HOST")
+	client, err := New(redisPath)
+	if err != nil {
+		return errors.Wrap(err, "Failed to get redis client")
+	}
+	defer client.Close()
+	//キーの存在可否の修正
+	err = client.RPush(key, value).Err()
+	if err != nil {
+		// log.Println(err)
+	}
+
+	return
+}
+
+func LRange(key string, start int64, end int64) (messages []string, err error) {
+	redisPath := os.Getenv("REDIS_HOST")
+	client, err := New(redisPath)
+	if err != nil {
+		return nil, errors.Wrap(err, "Failed to get redis client")
+	}
+	defer client.Close()
+	//キーの存在可否の修正
+	messages, err = client.LRange(key, start, end).Result()
+	return
+}
