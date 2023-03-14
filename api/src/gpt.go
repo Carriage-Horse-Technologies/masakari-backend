@@ -125,11 +125,11 @@ func fetchGPTMessage(msg string) (gptMessage string, err error) {
 	// -------------------------------------------
 	// fmt.Println(post)
 	gptMessage = post.Choices[0].Message.Content
-	if len(gptMessage) < ADJUST_SIZE {
-		for i := 0; i < ADJUST_SIZE-len(msg); i++ {
-			// iの値が0から9まで変化していく
-			gptMessage += "　"
-		}
-	}
+	// if len(gptMessage) < ADJUST_SIZE {
+	// 	for i := 0; i < ADJUST_SIZE-len(msg); i++ {
+	// 		// iの値が0から9まで変化していく
+	// 		gptMessage += "　"
+	// 	}
+	// }
 	return gptMessage, nil
 }
