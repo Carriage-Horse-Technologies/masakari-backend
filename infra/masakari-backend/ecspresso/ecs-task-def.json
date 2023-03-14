@@ -12,6 +12,10 @@
         {
           "name": "REDIS_HOST",
           "value": "{{ tfstate `data.aws_elasticache_replication_group.AlloMasakariBackendElasticache.primary_endpoint_address` }}:6379"
+        },
+        {
+          "name": "MEMCACHED_URL",
+          "value": "{{ tfstate `data.aws_elasticache_cluster.AlloMasakariBackendElasticacheMemcached.cluster_address` }}:11211"
         }
       ],
       "environmentFiles": [],
