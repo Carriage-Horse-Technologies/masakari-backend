@@ -57,7 +57,7 @@ func handler(s []byte) []byte {
 		// go attackServer(requestObject.Message)
 		score := ScoreMsg(requestObject.Message)
 		// アクションを発火する
-		createAttackServerTask(int(1000 * score))
+		createAttackServerTask(int(100*score) + 1)
 
 		//メッセージをGPTへ投げる
 		msg, err := fetchGPTMessage(requestObject.Message)

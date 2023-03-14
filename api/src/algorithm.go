@@ -10,7 +10,7 @@ func StringDistance(lhs, rhs string) int {
 
 func ScoreMsg(msg string) float64 {
 	//事前リストから計算させる
-	score := 0.0
+	score := 0.01
 	for _, sentence := range sentenceList {
 		score = NormalizeDistance([]rune(msg), []rune(sentence))
 		if score > threshold {
