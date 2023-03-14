@@ -54,7 +54,7 @@ func NewScheduleTargeter() vegeta.Targeter {
 
 func Benchmark(count int) {
 	// rate := flag.Int("rate", int(30.0*rateRatio), "Number of requests per time unit [0 = infinity] (default 10/1s)")
-	rate := count
+	rate := 100 + count
 	// duration := flag.Int("duration", 3, "Duration of the test [0 = forever]")
 	duration := 1
 	flag.Parse()
