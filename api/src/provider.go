@@ -12,7 +12,7 @@ func ProviderJob() {
 
 	// WebSocketに良い感じに流すジョブ
 	go func() {
-		for range time.Tick(10 * time.Second) {
+		for range time.Tick(5 * time.Second) {
 			fmt.Println("Socket Job is called")
 
 			var response ProcessStatusResponse

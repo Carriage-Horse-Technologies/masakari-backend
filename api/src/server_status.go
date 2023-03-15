@@ -69,6 +69,6 @@ func getServerStatus() ([]byte, error) {
 		return nil, err
 	}
 	//キャッシュをセット
-	cacheManager.SaveFor(30*time.Second, KEY_CACHE_STATUS, result_json)
+	cacheManager.SaveFor(15*time.Second, KEY_CACHE_STATUS, result_json)
 	return result_json, nil
 }
